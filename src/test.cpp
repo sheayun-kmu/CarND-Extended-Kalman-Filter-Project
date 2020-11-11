@@ -34,7 +34,7 @@ int main() {
     string line;
     // Set i to get only a designated number of lines are processed.
     int i = 0;
-    int n = 3;
+    int n = 0;
     while (getline(in_file, line) && (n == 0 || i < n)) {
         MeasurementPackage meas_package;
         istringstream iss(line);

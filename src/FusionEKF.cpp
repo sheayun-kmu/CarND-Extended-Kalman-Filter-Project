@@ -79,9 +79,19 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
         cout << "EKF: " << endl;
 
         if (measurement_pack.sensor_type_ == MeasurementPackage::RADAR) {
-          // TODO: Convert radar from polar to cartesian coordinates
-          //         and initialize state.
-
+            // Convert radar data in polar to cartesian coordinates.
+            // (Note rho_dot from the very first measurements is not used.)
+            float rho = measurement_pack.raw_measurements_[0];
+            float phi = measurement_pack.raw_measurements_[1];
+            // float rho_dot = measurement_pack.raw_measurements_[2];
+            // Initialize state variables.
+            float px = rho * cos(phi);
+            float py = rho * sin(phi);
+            ekf_.x_ << px, py, 0, 0;
+            // Record timestamp.
+            previous_timestamp_ = measurement_pack.timestamp_;
+            // Output debugging message.
+            cout << "From radar" << endl << ekf_.x_ << endl;
         }
         else if (measurement_pack.sensor_type_ == MeasurementPackage::LASER) {
             // Initialize state variables.
@@ -90,6 +100,8 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
             ekf_.x_ << px, py, 0, 0;
             // Record timestamp.
             previous_timestamp_ = measurement_pack.timestamp_;
+            // Output debugging message.
+            cout << "From laser" << endl << ekf_.x_ << endl;
         }
 
         // Done initializing, no need to predict or update
@@ -122,13 +134,21 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
      */
 
     if (measurement_pack.sensor_type_ == MeasurementPackage::RADAR) {
-      // TODO: Radar updates
-
+        // Radar updates
+        VectorXd z = VectorXd(3);
+        z << measurement_pack.raw_measurements_[0],
+             measurement_pack.raw_measurements_[1],
+             measurement_pack.raw_measurements_[2];
+        // Setup measurement noise covariance.
+        ekf_.R_ = R_radar_;
+        ekf_.UpdateEKF(z);
     } else {
-      // Laser updates
+        // Laser updates
         VectorXd z = VectorXd(2);
         z << measurement_pack.raw_measurements_[0],
              measurement_pack.raw_measurements_[1];
+        // Setup measurement noise covariance.
+        ekf_.R_ = R_laser_;
         ekf_.Update(z);
     }
 
