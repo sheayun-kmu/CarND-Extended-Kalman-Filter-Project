@@ -23,8 +23,8 @@ int main() {
     Tools tools;
 
     // Hardcoded input file with laser and radar measurements
-    // string in_file_name = "../data/obj_pose-laser-radar-synthetic-input.txt";
-    string in_file_name = "../../../Lesson-24/obj_pose-laser-radar-synthetic-input.txt";
+    string in_file_name = "../data/obj_pose-laser-radar-synthetic-input.txt";
+    // string in_file_name = "../../../Lesson-24/obj_pose-laser-radar-synthetic-input.txt";
     ifstream in_file(in_file_name.c_str(), ifstream::in);
     if (!in_file.is_open()) {
         cerr << "Cannot open input file: " << in_file_name << endl;
