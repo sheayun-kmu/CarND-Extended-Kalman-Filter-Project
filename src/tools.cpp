@@ -48,7 +48,7 @@ MatrixXd Tools::CalculateJacobian(const VectorXd& x_state) {
     // Check division by zero.
     if (px == 0 && py == 0) {
         std::cout << "Error: both px and py are zero while trying to"
-                    << " calculate the Jacobian." << std::endl;
+                  << " calculate the Jacobian." << std::endl;
         return Hj;
     }
     // Prepare calculation.
