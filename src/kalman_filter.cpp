@@ -4,6 +4,7 @@
 
 using Eigen::MatrixXd;
 using Eigen::VectorXd;
+using std::abs;
 
 /*
  * Please note that the Eigen library does not initialize
