@@ -23,7 +23,8 @@ int main() {
     Tools tools;
 
     // Hardcoded input file with laser and radar measurements
-    string in_file_name = "../data/obj_pose-laser-radar-synthetic-input.txt";
+    // string in_file_name = "../data/obj_pose-laser-radar-synthetic-input.txt";
+    string in_file_name = "../data/reformatted.txt";
     // string in_file_name = "../../../Lesson-24/obj_pose-laser-radar-synthetic-input.txt";
     ifstream in_file(in_file_name.c_str(), ifstream::in);
     if (!in_file.is_open()) {
@@ -54,9 +55,9 @@ int main() {
             // Read measurements
             meas_package.sensor_type_ = MeasurementPackage::RADAR;
             meas_package.raw_measurements_ = VectorXd(3);
-            float ro, theta, ro_dot;
-            iss >> ro >> theta >> ro_dot;
-            meas_package. raw_measurements_ << ro, theta, ro_dot;
+            float rho, theta, rho_dot;
+            iss >> rho >> theta >> rho_dot;
+            meas_package.raw_measurements_ << rho, theta, rho_dot;
         }
         iss >> timestamp;
         meas_package.timestamp_ = timestamp;
